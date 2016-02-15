@@ -1,0 +1,12 @@
+[db-servers]
+db-[01:02]
+
+[fe-servers]
+fe-[01:02]
+
+[vscale:children]
+db-servers
+fe-servers
+
+[local]
+localhost

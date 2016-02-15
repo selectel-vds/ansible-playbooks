@@ -1,0 +1,6 @@
+---
+- name: Ajenti restart
+  service: 
+    name: ajenti
+    enabled: yes
+    state: restarted

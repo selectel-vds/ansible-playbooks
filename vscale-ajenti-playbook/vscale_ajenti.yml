@@ -1,0 +1,8 @@
+---
+- hosts: ajenti-servers
+  connection: local
+  roles:
+  - { role: scalets }
+- hosts: ajenti-servers
+  roles:
+  - { role: ajenti }

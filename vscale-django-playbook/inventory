@@ -1,0 +1,5 @@
+[django-servers]
+django-01
+
+[local]
+localhost

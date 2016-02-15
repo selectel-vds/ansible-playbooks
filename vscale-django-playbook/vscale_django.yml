@@ -1,0 +1,9 @@
+---
+- hosts: django-servers
+  connection: local
+  roles:
+  - { role: scalets }
+- hosts: django-servers
+  roles:
+  - { role: mysql }
+  - { role: django }

@@ -1,0 +1,26 @@
+---
+- name: "[ VSCALE | Add SSH key]"
+  connection: local
+  vscale_ssh:
+    token: "{{ vscale_token }}"
+    name: "{{ key_name }}"
+    public_key: "{{ key }}"
+    state: present
+
+- name: "[ VSCALE | Create scalet ]"
+  connection: local
+  vscale_scalets:
+    token: "{{ vscale_token }}"
+    name: "{{ inventory_hostname }}"
+    plan: small
+    location: spb0
+    image: ubuntu_14.04_64_002_master
+    key_name: "{{ key_name }}"
+    collect_facts: "yes"
+    power_state: "started"
+    upgrade: "yes"
+    state: present
+  register: server
+
+- set_fact:
+    ansible_ssh_host: "{{ server['scalet']['public_address']['address'] }}"

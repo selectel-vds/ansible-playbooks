@@ -1,0 +1,11 @@
+---
+- name: "[ NGINX | Install ]"
+  apt:
+    name: nginx
+    update_cache: yes
+    state: latest
+
+- name: "[ NGINX | Disable default ]"
+  file:
+   path: /etc/nginx/sites-enabled/default
+   state: absent

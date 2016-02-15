@@ -1,0 +1,13 @@
+---
+vscale_token: "{{ lookup('env', 'VS_API_KEY')}}"
+key: "{{ lookup('file', 'credentials/ansible.pub') }}"
+mysql_packages:
+  - mysql-server
+  - mysql-client
+  - python-mysqldb
+db_admin_user: ""
+db_admin_user_pass: ""
+django_db_name: ""
+django_db_user: ""
+django_db_user_pass: ""
+django_project_name: ""

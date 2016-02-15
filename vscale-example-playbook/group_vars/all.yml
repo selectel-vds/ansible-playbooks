@@ -1,0 +1,3 @@
+---
+vscale_token: "{{ lookup('env', 'VS_API_KEY')}}"
+key: "{{ lookup('file', 'credentials/ansible.pub') }}"

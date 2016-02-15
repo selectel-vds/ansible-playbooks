@@ -1,0 +1,34 @@
+---
+- name: "[ WordPress | Create site directory ]"
+  file:
+    path: "{{ wp_site_directory }}"
+    owner: "www-data"
+    group: "www-data"
+    state: directory
+
+- name: "[ WordPress | Download ]"
+  get_url:
+    url: "https://wordpress.org/latest.tar.gz"
+    dest: "/tmp/"
+
+- name: "[ WordPress | Unpack ]"
+  shell: "tar xzf /tmp/wordpress-4.4.2.tar.gz -C {{ wp_site_directory }}/"
+
+- name: "[ WordPress | Set permissions ]"
+  file:
+    path: "{{ wp_site_directory }}"
+    owner: "www-data"
+    group: "www-data"
+    recurse: yes
+
+- name: "[ WordPress | Set WP configuration file ]"
+  template:
+    src: wp.conf
+    dest: /etc/nginx/sites-available/wp.conf
+
+- name: "[ WordPress | Activate NGINX configuration ]"
+  file:
+    src: /etc/nginx/sites-available/wp.conf
+    dest: /etc/nginx/sites-enabled/wp.conf
+    state: link
+  notify: restart nginx

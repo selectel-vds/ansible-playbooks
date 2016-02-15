@@ -1,0 +1,44 @@
+---
+- name: "[ Django | Install packages ]"
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - python-dev
+    - python-pip
+
+
+- name: "[ Django | Install required modules ]"
+  pip:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - virtualenv
+    - virtualenvwrapper
+
+- name: "[ Django | Install Django ]"
+  pip:
+    name: "django"
+    state: latest
+
+- name: "[ Django | Create project dir ]"
+  file:
+    path: "/var/django/projects/{{ django_project_name }}"
+    recurse: yes
+    state: directory
+
+- name: "[ Django | Create project ]"
+  shell: "django-admin startproject {{ django_project_name }} /var/django/projects/{{ django_project_name }}"
+
+- name: "[ Django | Set project config ]"
+  template:
+    src: "project_settings.j2"
+    dest: "/var/django/projects/{{ django_project_name }}/{{ django_project_name }}/settings.py"
+    force: yes
+- name: "[ Install daemon for run test server ]"
+  apt:
+    name: "daemon"
+    state: latest
+
+- name: "[ Django | Start dev server ]"
+  shell: daemon /var/django/projects/{{ django_project_name }}/manage.py runserver 0.0.0.0:8000

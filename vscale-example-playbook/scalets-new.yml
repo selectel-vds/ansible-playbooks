@@ -1,0 +1,62 @@
+---
+
+- name: Add SSH key to vscale hosting and create scalets
+  connection: local
+  gather_facts: True
+  hosts:
+    - vscale
+  tasks:
+    - name: Add SSH key to Vscale account
+      run_once: true
+      vscale_ssh:
+        token: "{{ vscale_token }}"
+        name: "Ansible"
+        public_key: "{{ key }}"
+        state: present
+
+    - name: Create scalet for inventory hosts
+      vscale_scalets:
+        token: "{{ vscale_token }}"
+        name: "{{ inventory_hostname }}"
+        plan: small
+        location: spb0
+        image: ubuntu_14.04_64_002_master
+        key_name: "Ansible"
+        collect_facts: "yes"
+        power_state: "started"
+        upgrade: "yes"
+        state: present
+      register: server
+
+    - set_fact:
+        ansible_ssh_host: "{{ server['scalet']['public_address']['address'] }}"
+
+- name: Install NGINX and fill disk
+  remote_user: root
+  hosts:
+    - fe-servers
+
+  tasks:
+    - name: Install NGINX
+      apt:
+        pkg: nginx
+        update_cache: yes
+        state: latest
+    - name: Filling disk
+      command: dd if=/dev/zero of=/large.file bs=100M count=150 creates=/large.file
+
+- name: Check free disk space and upgrade scalets if it less than 3Gb
+  remote_user: root
+  hosts:
+    - fe-servers
+  tasks:
+    - name: Gather facts
+      setup:
+    - debug: var="{{ (ansible_mounts[0].size_total) }}"
+    - vscale_scalets:
+        token: "{{ vscale_token }}"
+        name: "{{ inventory_hostname }}"
+        plan: medium
+        upgrade: yes
+        state: present
+      when: "{{ (ansible_mounts[0].size_available)/2**30 < 3*(2**30) }}"

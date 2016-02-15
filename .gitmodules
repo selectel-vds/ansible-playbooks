@@ -1,0 +1,12 @@
+[submodule "vscale-ajenti-playbook/library"]
+	path = vscale-ajenti-playbook/library
+	url = git@github.com:vscale/ansible-vscale-modules.git
+[submodule "vscale-django-playbook/library"]
+	path = vscale-django-playbook/library
+	url = git@github.com:vscale/ansible-vscale-modules.git
+[submodule "vscale-example-playbook/library"]
+	path = vscale-example-playbook/library
+	url = git@github.com:vscale/ansible-vscale-modules.git
+[submodule "vscale-wordpress-playbook/library"]
+	path = vscale-wordpress-playbook/library
+	url = git@github.com:vscale/ansible-vscale-modules.git

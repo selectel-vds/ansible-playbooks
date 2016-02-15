@@ -1,0 +1,12 @@
+---
+- hosts: wp-servers
+  # remote_user: root
+  connection: local
+  roles:
+  - { role: scalets }
+- hosts: wp-servers
+  roles:
+  - { role: mysql }
+  - { role: nginx }
+  - { role: php5-fpm }
+  - { role: wordpress }

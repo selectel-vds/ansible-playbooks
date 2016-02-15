@@ -1,0 +1,17 @@
+---
+- name: "[Ajenti | Install GPG key]"
+  apt_key: 
+    url: http://repo.ajenti.org/debian/key 
+    state: present
+
+- name: "[ Ajenti | Add repository ]"
+  apt_repository: 
+    repo:  "deb http://repo.ajenti.org/debian main main ubuntu" 
+    state: present
+
+- name: "[ Ajenti | Install]"
+  apt: 
+    pkg: ajenti
+    update_cache: yes
+    state: latest
+  notify: Ajenti restart

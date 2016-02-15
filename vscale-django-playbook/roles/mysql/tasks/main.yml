@@ -1,0 +1,29 @@
+---
+- name: "[ MySQL Server | Install ]"
+  apt:
+    name: "{{ mysql_packages }}"
+    update_cache: yes
+    state: present
+
+- name: "[ MySQL Server | Add user ]"
+  mysql_user:
+    name: "{{ db_admin_user }}"
+    password: "{{ db_admin_user_pass }}"
+    state: present
+  ignore_errors: yes
+
+- name: "[ MySQL Server | Create DB ]"
+  mysql_db:
+    name: "{{ django_db_name }}"
+    login_user: "{{ db_admin_user }}"
+    login_password: "{{ db_admin_user_pass }}"
+    state: present
+
+- name: "[ MySQL Server | Add Django user ]"
+  mysql_user:
+    name: "{{ django_db_user }}"
+    password: "{{ django_db_user_pass }}"
+    login_user: "{{ db_admin_user }}"
+    login_password: "{{ db_admin_user_pass }}"
+    priv: "{{ django_db_name }}.*:ALL"
+    state: present

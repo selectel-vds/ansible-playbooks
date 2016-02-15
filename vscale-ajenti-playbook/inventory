@@ -1,0 +1,5 @@
+[ajenti-servers]
+ajenti
+
+[local]
+localhost
