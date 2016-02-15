@@ -6,7 +6,10 @@ Before you start put your SSH keys (private and public) into credentials folder 
 which contains all needed variables. It is also necessary to define an API key. You can add a key in 
 your operating system environment variables, for *nix like systems: `export VS_API_KEY=<your_token>`. 
 Or you can put them directly into `all.yml` file: `vscale_token: "<your_token>"`. If you want add SSH keys
-to account - fill `key_name` and `key` strings.
+to account - fill `key_name` and `key` strings. Also you shoud clone 
+ansible-vscale-module into `library` dir:
+`git submodule add git@github.com:vscale/ansible-module.git ./library` and add public and private SSH keys into
+`credentials` directory.
 
 ##### Example:
 ```yaml
